@@ -1,29 +1,41 @@
 <template>
     <div v-if="book">
-      <h2>{{ book.title }}</h2>
-      <p><strong>Autor:</strong> {{ book.author }}</p>
-      <p><strong>Rok wydania:</strong> {{ book.publication_year }}</p>
-      <p><strong>Opis:</strong> {{ book.description }}</p>
-  
-      <h3>Recenzje:</h3>
-      <ul v-if="reviews.length > 0">
-        <li v-for="review in reviews" :key="review.id">
-          <strong>{{ review.reviewer_name }}</strong> ({{ review.rating }}⭐): 
-          {{ review.content }}
-          <button @click="editReview(review)">Edytuj</button>
-          <button @click="deleteReview(review.id)">Usuń</button>
-        </li>
-      </ul>
-      <p v-else>Brak recenzji.</p>
-  
-      <h4>{{ editingReview ? 'Edytuj recenzję' : 'Dodaj recenzję' }}</h4>
-      <form @submit.prevent="editingReview ? updateReview() : addReview()">
-        <input v-model="reviewForm.reviewer_name" placeholder="Imię" required />
-        <input v-model="reviewForm.rating" type="number" min="1" max="5" placeholder="Ocena" required />
-        <textarea v-model="reviewForm.content" placeholder="Treść recenzji" required></textarea>
-        <button type="submit">{{ editingReview ? 'Zapisz zmiany' : 'Dodaj recenzję' }}</button>
-        <button type="button" v-if="editingReview" @click="cancelEdit">Anuluj</button>
-      </form>
+      <div class="book-details-container">
+        <h2>{{ book.title }}</h2>
+        <p><strong>Autor:</strong> {{ book.author }}</p>
+        <p><strong>Rok wydania:</strong> {{ book.publication_year }}</p>
+        <p><strong>Opis:</strong> {{ book.description }}</p>
+      </div>
+
+      <div class="review-container">
+        <h3>Recenzje:</h3>
+            <ul v-if="reviews.length > 0">
+            <li v-for="review in reviews" :key="review.id" class="review-item">
+                <div class="review-content">
+                <strong>{{ review.reviewer_name }}</strong> ({{ review.rating }}⭐): 
+                {{ review.content }}
+                </div>
+                <div class="book-actions">
+                    <button @click="editReview(review)">Edytuj</button>
+                    <button @click="deleteReview(review.id)" class="delete-btn">Usuń</button>
+                </div>
+            </li>
+            </ul>
+            <p v-else>Brak recenzji.</p>
+        </div>
+        <div class="edit-review-container">
+            <h4>{{ editingReview ? 'Edytuj recenzję' : 'Dodaj recenzję' }}</h4>
+            <form @submit.prevent="editingReview ? updateReview() : addReview()">
+                <input v-model="reviewForm.reviewer_name" placeholder="Imię" required />
+                <input v-model="reviewForm.rating" type="number" min="1" max="5" placeholder="Ocena" required />
+                <textarea v-model="reviewForm.content" placeholder="Treść recenzji" required></textarea>
+                <button type="submit">{{ editingReview ? 'Zapisz zmiany' : 'Dodaj recenzję' }}</button>
+                <button type="button" v-if="editingReview" @click="cancelEdit">Anuluj</button>
+            </form>
+        </div>
+
+      
+      
   
       <button @click="closeBook">Zamknij</button>
     </div>

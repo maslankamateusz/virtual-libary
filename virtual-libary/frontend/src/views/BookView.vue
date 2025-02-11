@@ -30,8 +30,8 @@
   export default {
     setup() {
       const route = useRoute();
-      const book = ref(null);
-      const reviews = ref([]);
+      const book = ref<{ title: string; author: string; publication_year: number; description: string } | null>(null);
+      const reviews = ref<{ id: number; reviewer_name: string; content: string; rating: number }[]>([]);
       const newReview = ref({ reviewer_name: '', rating: 5, content: '' });
   
       const fetchBook = async () => {
@@ -52,7 +52,7 @@
           content: newReview.value.content
         });
         newReview.value = { reviewer_name: '', rating: 5, content: '' };
-        fetchReviews();
+        fetchReviews(); 
       };
   
       onMounted(() => {

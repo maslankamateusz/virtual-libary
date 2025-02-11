@@ -1,20 +1,19 @@
 <template>
-    <div>
+    <div class="book-list">
       <h2>Lista Książek</h2>
       <ul>
-        <li v-for="book in books" :key="book.id">
-          <a href="#" @click.prevent="$emit('viewBook', book)"> {{ book.title }} - {{ book.author }}</a>
-          <button @click="$emit('editBook', book)">Edytuj</button>
-          <button @click="$emit('deleteBook', book.id)">Usuń</button>
+        <li v-for="book in books" :key="book.id" class="book-item">
+          <div class="book-info">
+            <a href="#" @click.prevent="$emit('viewBook', book)">
+              {{ book.title }} - {{ book.author }}
+            </a>
+          </div>
+          <div class="book-actions">
+            <button @click="$emit('editBook', book)">Edytuj</button>
+            <button @click="$emit('deleteBook', book.id)" class="delete-btn">Usuń</button>
+          </div>
         </li>
       </ul>
-  
-      <h3>Dodaj książkę</h3>
-      <input v-model="newBook.title" placeholder="Tytuł" />
-      <input v-model="newBook.author" placeholder="Autor" />
-      <input v-model="newBook.publication_year" placeholder="Rok wydania" type="number" />
-      <textarea v-model="newBook.description" placeholder="Opis"></textarea>
-      <button @click="addBook">Dodaj</button>
     </div>
   </template>
   
@@ -24,6 +23,7 @@
   
   const props = defineProps(['books']);
   const emit = defineEmits(['bookAdded']);
+  
   const newBook = ref({ title: '', author: '', publication_year: '', description: '' });
   
   const addBook = async () => {
